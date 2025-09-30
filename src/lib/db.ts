@@ -49,10 +49,16 @@ export const db = new DigBahiDB();
 export async function initializeDB() {
   const userCount = await db.users.count();
   if (userCount === 0) {
-    // Demo PIN: "1234" hashed
+    // Demo PIN: "1234" - SHA-256 hash
+    const encoder = new TextEncoder();
+    const data = encoder.encode('1234');
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const pinHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    
     await db.users.add({
       username: 'demo',
-      pinHash: '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy',
+      pinHash,
       role: 'owner',
       createdAt: new Date()
     });

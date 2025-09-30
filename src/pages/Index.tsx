@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Auth } from '@/components/Auth';
 import { Dashboard } from '@/components/Dashboard';
 import { LedgerTable } from '@/components/LedgerTable';
 import { EntryForm } from '@/components/EntryForm';
@@ -11,16 +10,14 @@ import { WhatsAppShare } from '@/features/WhatsAppShare';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { getCurrentUser, logout } from '@/lib/auth';
 import { initializeDB } from '@/lib/db';
 import { toast } from 'sonner';
-import { LayoutDashboard, BookOpen, PenTool, LogOut, FileText, CreditCard, MessageCircle, Globe } from 'lucide-react';
+import { LayoutDashboard, BookOpen, PenTool, FileText, CreditCard, MessageCircle, Globe } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import '@/lib/i18n';
 
 const Index = () => {
   const { i18n } = useTranslation();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showEntryForm, setShowEntryForm] = useState(false);
   const [showPenCanvas, setShowPenCanvas] = useState(false);
   const [refreshLedger, setRefreshLedger] = useState(0);
@@ -28,21 +25,7 @@ const Index = () => {
 
   useEffect(() => {
     initializeDB();
-    const user = getCurrentUser();
-    if (user) {
-      setIsAuthenticated(true);
-    }
   }, []);
-
-  const handleLogin = () => {
-    setIsAuthenticated(true);
-  };
-
-  const handleLogout = () => {
-    logout();
-    setIsAuthenticated(false);
-    toast.success('Logged out successfully');
-  };
 
   const handleEntrySuccess = () => {
     setShowEntryForm(false);
@@ -54,10 +37,6 @@ const Index = () => {
     toast.info('Recognized: ' + text);
     setShowEntryForm(true);
   };
-
-  if (!isAuthenticated) {
-    return <Auth onLogin={handleLogin} />;
-  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -90,14 +69,6 @@ const Index = () => {
               >
                 <PenTool className="w-4 h-4 mr-2" />
                 Pen Input
-              </Button>
-              <Button
-                onClick={handleLogout}
-                variant="ghost"
-                className="touch-friendly"
-              >
-                <LogOut className="w-4 h-4 mr-2" />
-                Logout
               </Button>
             </div>
           </div>

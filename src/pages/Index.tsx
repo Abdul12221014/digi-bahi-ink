@@ -4,14 +4,22 @@ import { Dashboard } from '@/components/Dashboard';
 import { LedgerTable } from '@/components/LedgerTable';
 import { EntryForm } from '@/components/EntryForm';
 import { PenCanvas } from '@/components/PenCanvas';
+import { Reports } from '@/features/Reports';
+import { UPIIntegration } from '@/features/UPIIntegration';
+import { CreditManager } from '@/features/CreditManager';
+import { WhatsAppShare } from '@/features/WhatsAppShare';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getCurrentUser, logout } from '@/lib/auth';
 import { initializeDB } from '@/lib/db';
 import { toast } from 'sonner';
-import { LayoutDashboard, BookOpen, PenTool, LogOut, FileText } from 'lucide-react';
+import { LayoutDashboard, BookOpen, PenTool, LogOut, FileText, CreditCard, MessageCircle, Globe } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import '@/lib/i18n';
 
 const Index = () => {
+  const { i18n } = useTranslation();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showEntryForm, setShowEntryForm] = useState(false);
   const [showPenCanvas, setShowPenCanvas] = useState(false);
@@ -65,6 +73,16 @@ const Index = () => {
               </div>
             </div>
             <div className="flex items-center gap-3">
+              <Select value={i18n.language} onValueChange={(lang) => i18n.changeLanguage(lang)}>
+                <SelectTrigger className="w-32 touch-friendly">
+                  <Globe className="w-4 h-4 mr-2" />
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="en">English</SelectItem>
+                  <SelectItem value="hi">हिन्दी</SelectItem>
+                </SelectContent>
+              </Select>
               <Button
                 onClick={() => setShowPenCanvas(true)}
                 variant="outline"
@@ -100,7 +118,7 @@ const Index = () => {
           />
         ) : (
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-8">
+            <TabsList className="grid w-full max-w-4xl mx-auto grid-cols-6 mb-8">
               <TabsTrigger value="dashboard" className="touch-friendly">
                 <LayoutDashboard className="w-4 h-4 mr-2" />
                 Dashboard
@@ -112,6 +130,18 @@ const Index = () => {
               <TabsTrigger value="reports" className="touch-friendly">
                 <FileText className="w-4 h-4 mr-2" />
                 Reports
+              </TabsTrigger>
+              <TabsTrigger value="upi" className="touch-friendly">
+                <CreditCard className="w-4 h-4 mr-2" />
+                UPI
+              </TabsTrigger>
+              <TabsTrigger value="credit" className="touch-friendly">
+                <CreditCard className="w-4 h-4 mr-2" />
+                Credit
+              </TabsTrigger>
+              <TabsTrigger value="whatsapp" className="touch-friendly">
+                <MessageCircle className="w-4 h-4 mr-2" />
+                WhatsApp
               </TabsTrigger>
             </TabsList>
 
@@ -127,13 +157,19 @@ const Index = () => {
             </TabsContent>
 
             <TabsContent value="reports">
-              <div className="text-center py-12">
-                <FileText className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                <h2 className="text-2xl font-bold mb-2">Reports Module</h2>
-                <p className="text-muted-foreground">
-                  P&L statements, GST reports, and export features coming soon!
-                </p>
-              </div>
+              <Reports />
+            </TabsContent>
+
+            <TabsContent value="upi">
+              <UPIIntegration />
+            </TabsContent>
+
+            <TabsContent value="credit">
+              <CreditManager />
+            </TabsContent>
+
+            <TabsContent value="whatsapp">
+              <WhatsAppShare />
             </TabsContent>
           </Tabs>
         )}

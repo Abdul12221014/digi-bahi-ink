@@ -6,20 +6,21 @@
 
 ### Core Functionality
 - ✅ **PIN-based Authentication** - Secure role-based access (Owner/Accountant/Employee)
-- ✅ **Pen Input Canvas** - Traditional handwriting feel with digital recognition
+- ✅ **Pen Input Canvas** - Traditional handwriting feel with TensorFlow.js OCR ready
 - ✅ **Digital Ledger** - Professional table view for all transactions
 - ✅ **GST Compliance** - Automatic calculation with official slabs (0%, 5%, 12%, 18%, 28%)
 - ✅ **Transaction Types** - Sales, Purchases, Expenses, Receipts
 - ✅ **Dashboard Analytics** - Real-time P&L, GST summary, business insights
-- ✅ **Offline-First** - Works without internet using IndexedDB
+- ✅ **Offline-First** - Works without internet using IndexedDB with encryption
 - ✅ **Mobile-Optimized** - Responsive design for tablets and phones
 
-### Coming Soon
-- 🔄 UPI Integration - Payment reconciliation
-- 🔄 WhatsApp Billing - Share invoices via WhatsApp
-- 🔄 Credit Management - Track receivables with OTP consent
-- 🔄 Advanced Reports - Export to PDF/Excel
-- 🔄 Multi-lingual - Hindi and regional languages
+### Enhanced Features
+- ✅ **PDF Exports** - P&L statements, GST reports, and ledger summaries
+- ✅ **CSV Export** - Export ledger data for Tally/Excel import
+- ✅ **Multi-lingual** - English and Hindi (हिन्दी) support
+- ✅ **UPI Integration** - Payment reconciliation stubs (demo mode)
+- ✅ **WhatsApp Billing** - Generate and share invoices via WhatsApp
+- ✅ **Credit Management** - Track receivables with OTP-based customer consent
 
 ## 🚀 Quick Start
 
@@ -91,12 +92,35 @@ DigBahi uses a professional Indian business aesthetic:
 5. Click "Save Entry"
 
 ### Viewing Reports
-1. Navigate to "Dashboard" tab
-2. View real-time statistics:
-   - Total Sales, Purchases, Expenses, Receipts
-   - Net Profit/Loss
-   - GST Collected vs. Paid
-   - Net GST Liability
+1. Navigate to "Reports" tab
+2. Export professional PDF reports:
+   - **P&L Statement** - Income vs. expenses with net profit/loss
+   - **GST Report** - Collected vs. paid with net liability for filing
+   - **Ledger Summary** - Complete transaction history
+3. Export to CSV for Tally/Excel import
+
+### UPI Integration (Demo Mode)
+1. Go to "UPI" tab
+2. Enter UPI ID and amount
+3. Click "Reconcile Transaction" to match with ledger
+
+### WhatsApp Billing
+1. Navigate to "WhatsApp" tab
+2. Select bill type (Invoice/Receipt)
+3. Enter amount and customer 10-digit phone number
+4. Click "Share via WhatsApp" to generate PDF and share
+
+### Credit Management
+1. Go to "Credit" tab
+2. Enter customer name and credit amount
+3. Request customer OTP for consent
+4. Verify OTP and record credit sale
+5. Track pending payments and mark as paid
+
+### Language Switching
+1. Click language selector in header (Globe icon)
+2. Choose English or हिन्दी (Hindi)
+3. All UI labels update instantly
 
 ### Managing Ledger
 1. Go to "Ledger" tab
@@ -118,7 +142,11 @@ DigBahi uses a professional Indian business aesthetic:
 - **Build Tool:** Vite
 - **Styling:** Tailwind CSS with custom design system
 - **UI Components:** shadcn/ui (customized)
-- **Database:** Dexie.js (IndexedDB wrapper)
+- **Database:** Dexie.js (IndexedDB wrapper) with Web Crypto encryption
+- **OCR:** TensorFlow.js (model loading required for production)
+- **PDF Generation:** jsPDF for reports and invoices
+- **File Export:** FileSaver for CSV downloads
+- **Internationalization:** i18next + react-i18next
 - **Icons:** Lucide React
 - **PWA:** Service Workers + Web Manifest
 
@@ -172,11 +200,13 @@ DigBahi implements official Indian GST tax slabs:
 - **18%** - Most goods and services (standard rate)
 - **28%** - Luxury goods (cars, tobacco, premium items)
 
-### GST Invoice Generation
-- Automatic tax calculation
-- Compliant invoice format
-- GSTIN support (coming soon)
-- Export to PDF for filing
+### GST Features
+- Automatic tax calculation on all transactions
+- GST-compliant PDF invoice generation
+- Separate tracking of Output Tax (collected) vs. Input Tax Credit (paid)
+- Net GST liability calculation for portal filing
+- Export GST reports to PDF for GSTIN filing
+- GSTIN integration (coming in future updates)
 
 ## 🧪 Testing
 
@@ -213,6 +243,34 @@ npm run lint
 ## 📄 License
 
 © 2025 DigBahi Accounting Solutions LLP. All rights reserved.
+
+## 🗺️ Roadmap
+
+### Completed (MVP)
+- ✅ PIN authentication with role management
+- ✅ Canvas pen input with OCR stub
+- ✅ Digital ledger with CRUD operations
+- ✅ GST calculator (0%, 5%, 12%, 18%, 28%)
+- ✅ Dashboard analytics (P&L, GST, insights)
+- ✅ Offline IndexedDB storage with encryption
+- ✅ PWA installable on all platforms
+- ✅ TensorFlow.js OCR integration (model loading required)
+- ✅ PDF exports (P&L, GST reports, ledger)
+- ✅ CSV export for Tally/Excel
+- ✅ UPI/WhatsApp/Credit management (demo stubs)
+- ✅ English and Hindi localization
+
+### Next Steps
+- [ ] Load TensorFlow.js handwriting recognition model (MNIST/IAM)
+- [ ] Optimize for low-spec tablets (<2GB RAM, quad-core CPU)
+- [ ] Real UPI API integration (PhonePe/GooglePay sandbox)
+- [ ] WhatsApp Business API for automated billing
+- [ ] Service Worker for advanced offline caching
+- [ ] Cloud sync for multi-device (optional Lovable Cloud)
+- [ ] Advanced reports (Balance Sheet, Cash Flow Statement)
+- [ ] GSTIN management and e-filing portal integration
+- [ ] Video tutorials and in-app help documentation
+- [ ] Regional languages (Tamil, Telugu, Marathi, Bengali)
 
 ## 🆘 Support
 

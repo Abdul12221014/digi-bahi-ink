@@ -41,19 +41,23 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b shadow-soft bg-card">
+      <header className="border-b shadow-medium bg-card sticky top-0 z-50 backdrop-blur-sm bg-card/95">
         <div className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              <img src="/icon-192.png" alt="DigBahi" className="w-10 h-10" />
+            <div className="flex items-center gap-3 animate-slide-in">
+              <div className="w-12 h-12 rounded-xl gradient-hero flex items-center justify-center shadow-medium">
+                <span className="text-2xl font-bold text-white">D</span>
+              </div>
               <div>
-                <h1 className="text-2xl font-bold text-primary">DigBahi</h1>
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-[hsl(145_70%_32%)] to-[hsl(40_98%_48%)] bg-clip-text text-transparent">
+                  DigBahi
+                </h1>
                 <p className="text-xs text-muted-foreground">Professional Accounting</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 animate-fade-in">
               <Select value={i18n.language} onValueChange={(lang) => i18n.changeLanguage(lang)}>
-                <SelectTrigger className="w-32 touch-friendly">
+                <SelectTrigger className="w-32 touch-friendly hover-lift border-primary/20">
                   <Globe className="w-4 h-4 mr-2" />
                   <SelectValue />
                 </SelectTrigger>
@@ -64,8 +68,7 @@ const Index = () => {
               </Select>
               <Button
                 onClick={() => setShowPenCanvas(true)}
-                variant="outline"
-                className="touch-friendly"
+                className="touch-friendly gradient-hero hover:shadow-glow transition-smooth"
               >
                 <PenTool className="w-4 h-4 mr-2" />
                 Pen Input
@@ -88,29 +91,29 @@ const Index = () => {
             onCancel={() => setShowEntryForm(false)}
           />
         ) : (
-          <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid w-full max-w-4xl mx-auto grid-cols-6 mb-8">
-              <TabsTrigger value="dashboard" className="touch-friendly">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="animate-fade-in">
+            <TabsList className="grid w-full max-w-4xl mx-auto grid-cols-6 mb-8 p-1.5 bg-card shadow-medium">
+              <TabsTrigger value="dashboard" className="touch-friendly data-[state=active]:gradient-hero data-[state=active]:text-white transition-smooth">
                 <LayoutDashboard className="w-4 h-4 mr-2" />
                 Dashboard
               </TabsTrigger>
-              <TabsTrigger value="ledger" className="touch-friendly">
+              <TabsTrigger value="ledger" className="touch-friendly data-[state=active]:gradient-hero data-[state=active]:text-white transition-smooth">
                 <BookOpen className="w-4 h-4 mr-2" />
                 Ledger
               </TabsTrigger>
-              <TabsTrigger value="reports" className="touch-friendly">
+              <TabsTrigger value="reports" className="touch-friendly data-[state=active]:gradient-hero data-[state=active]:text-white transition-smooth">
                 <FileText className="w-4 h-4 mr-2" />
                 Reports
               </TabsTrigger>
-              <TabsTrigger value="upi" className="touch-friendly">
+              <TabsTrigger value="upi" className="touch-friendly data-[state=active]:gradient-hero data-[state=active]:text-white transition-smooth">
                 <CreditCard className="w-4 h-4 mr-2" />
                 UPI
               </TabsTrigger>
-              <TabsTrigger value="credit" className="touch-friendly">
+              <TabsTrigger value="credit" className="touch-friendly data-[state=active]:gradient-hero data-[state=active]:text-white transition-smooth">
                 <CreditCard className="w-4 h-4 mr-2" />
                 Credit
               </TabsTrigger>
-              <TabsTrigger value="whatsapp" className="touch-friendly">
+              <TabsTrigger value="whatsapp" className="touch-friendly data-[state=active]:gradient-hero data-[state=active]:text-white transition-smooth">
                 <MessageCircle className="w-4 h-4 mr-2" />
                 WhatsApp
               </TabsTrigger>
@@ -147,10 +150,22 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t mt-12 py-6 bg-card">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>DigBahi Accounting Solutions LLP © 2025</p>
-          <p className="mt-1">Professional accounting software for Indian SMEs</p>
+      <footer className="border-t mt-12 py-8 bg-card shadow-soft">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col items-center justify-center gap-4 text-center">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg gradient-hero flex items-center justify-center">
+                <span className="text-lg font-bold text-white">D</span>
+              </div>
+              <span className="text-lg font-bold bg-gradient-to-r from-[hsl(145_70%_32%)] to-[hsl(40_98%_48%)] bg-clip-text text-transparent">
+                DigBahi
+              </span>
+            </div>
+            <div className="text-sm text-muted-foreground space-y-1">
+              <p className="font-medium">DigBahi Accounting Solutions LLP © 2025</p>
+              <p>Professional accounting software for Indian SMEs</p>
+            </div>
+          </div>
         </div>
       </footer>
     </div>

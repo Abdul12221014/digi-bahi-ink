@@ -59,89 +59,118 @@ export function Dashboard() {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-ledger-header">Dashboard</h2>
+      <div className="flex items-center justify-between">
+        <h2 className="text-3xl font-bold bg-gradient-to-r from-[hsl(145_70%_32%)] to-[hsl(40_98%_48%)] bg-clip-text text-transparent animate-slide-in">
+          Dashboard
+        </h2>
+        <div className="animate-fade-in">
+          <span className="text-sm text-muted-foreground">Last updated: {new Date().toLocaleDateString()}</span>
+        </div>
+      </div>
       
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="p-6 gradient-card shadow-soft">
+        <Card className="p-6 card-gradient shadow-medium hover-lift border-l-4 border-l-[hsl(145_75%_38%)] animate-scale-in">
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">Total Sales</p>
-              <p className="text-2xl font-bold text-success mt-1">{formatCurrency(stats.totalSales)}</p>
+              <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Total Sales</p>
+              <p className="text-3xl font-bold bg-gradient-to-br from-[hsl(145_75%_38%)] to-[hsl(145_70%_32%)] bg-clip-text text-transparent mt-2">
+                {formatCurrency(stats.totalSales)}
+              </p>
             </div>
-            <TrendingUp className="w-8 h-8 text-success opacity-50" />
+            <div className="p-3 rounded-xl bg-[hsl(145_75%_38%)]/10">
+              <TrendingUp className="w-6 h-6 text-[hsl(145_75%_38%)]" />
+            </div>
           </div>
         </Card>
 
-        <Card className="p-6 gradient-card shadow-soft">
+        <Card className="p-6 card-gradient shadow-medium hover-lift border-l-4 border-l-[hsl(200_75%_48%)] animate-scale-in" style={{ animationDelay: '0.1s' }}>
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">Total Purchases</p>
-              <p className="text-2xl font-bold text-info mt-1">{formatCurrency(stats.totalPurchases)}</p>
+              <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Total Purchases</p>
+              <p className="text-3xl font-bold bg-gradient-to-br from-[hsl(200_75%_48%)] to-[hsl(200_65%_40%)] bg-clip-text text-transparent mt-2">
+                {formatCurrency(stats.totalPurchases)}
+              </p>
             </div>
-            <TrendingDown className="w-8 h-8 text-info opacity-50" />
+            <div className="p-3 rounded-xl bg-[hsl(200_75%_48%)]/10">
+              <TrendingDown className="w-6 h-6 text-[hsl(200_75%_48%)]" />
+            </div>
           </div>
         </Card>
 
-        <Card className="p-6 gradient-card shadow-soft">
+        <Card className="p-6 card-gradient shadow-medium hover-lift border-l-4 border-l-[hsl(0_75%_52%)] animate-scale-in" style={{ animationDelay: '0.2s' }}>
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">Expenses</p>
-              <p className="text-2xl font-bold text-destructive mt-1">{formatCurrency(stats.totalExpenses)}</p>
+              <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Expenses</p>
+              <p className="text-3xl font-bold bg-gradient-to-br from-[hsl(0_75%_52%)] to-[hsl(0_65%_44%)] bg-clip-text text-transparent mt-2">
+                {formatCurrency(stats.totalExpenses)}
+              </p>
             </div>
-            <Wallet className="w-8 h-8 text-destructive opacity-50" />
+            <div className="p-3 rounded-xl bg-[hsl(0_75%_52%)]/10">
+              <Wallet className="w-6 h-6 text-[hsl(0_75%_52%)]" />
+            </div>
           </div>
         </Card>
 
-        <Card className="p-6 gradient-card shadow-soft">
+        <Card className="p-6 card-gradient shadow-medium hover-lift border-l-4 border-l-[hsl(40_98%_48%)] animate-scale-in" style={{ animationDelay: '0.3s' }}>
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">Receipts</p>
-              <p className="text-2xl font-bold text-accent mt-1">{formatCurrency(stats.totalReceipts)}</p>
+              <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Receipts</p>
+              <p className="text-3xl font-bold bg-gradient-to-br from-[hsl(40_98%_48%)] to-[hsl(45_95%_50%)] bg-clip-text text-transparent mt-2">
+                {formatCurrency(stats.totalReceipts)}
+              </p>
             </div>
-            <Receipt className="w-8 h-8 text-accent opacity-50" />
+            <div className="p-3 rounded-xl bg-[hsl(40_98%_48%)]/10">
+              <Receipt className="w-6 h-6 text-[hsl(40_98%_48%)]" />
+            </div>
           </div>
         </Card>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-4">
-        <Card className="p-6 shadow-medium">
-          <h3 className="font-semibold mb-4">Profit & Loss</h3>
-          <div className="space-y-3">
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Revenue:</span>
-              <span className="font-medium text-success">{formatCurrency(stats.totalSales)}</span>
+      <div className="grid md:grid-cols-2 gap-6">
+        <Card className="p-6 shadow-strong hover-lift card-gradient animate-fade-in border-t-4 border-t-primary">
+          <h3 className="font-bold text-xl mb-6 flex items-center gap-2">
+            <div className="w-2 h-8 bg-gradient-to-b from-[hsl(145_70%_32%)] to-[hsl(40_98%_48%)] rounded-full"></div>
+            Profit & Loss
+          </h3>
+          <div className="space-y-4">
+            <div className="flex justify-between items-center p-3 rounded-lg bg-[hsl(145_75%_38%)]/5 hover:bg-[hsl(145_75%_38%)]/10 transition-smooth">
+              <span className="text-sm font-medium text-muted-foreground">Revenue</span>
+              <span className="font-bold text-[hsl(145_75%_38%)]">{formatCurrency(stats.totalSales)}</span>
             </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Cost of Goods:</span>
-              <span className="font-medium text-info">{formatCurrency(stats.totalPurchases)}</span>
+            <div className="flex justify-between items-center p-3 rounded-lg bg-[hsl(200_75%_48%)]/5 hover:bg-[hsl(200_75%_48%)]/10 transition-smooth">
+              <span className="text-sm font-medium text-muted-foreground">Cost of Goods</span>
+              <span className="font-bold text-[hsl(200_75%_48%)]">{formatCurrency(stats.totalPurchases)}</span>
             </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Expenses:</span>
-              <span className="font-medium text-destructive">{formatCurrency(stats.totalExpenses)}</span>
+            <div className="flex justify-between items-center p-3 rounded-lg bg-[hsl(0_75%_52%)]/5 hover:bg-[hsl(0_75%_52%)]/10 transition-smooth">
+              <span className="text-sm font-medium text-muted-foreground">Expenses</span>
+              <span className="font-bold text-[hsl(0_75%_52%)]">{formatCurrency(stats.totalExpenses)}</span>
             </div>
-            <div className="flex justify-between pt-3 border-t">
-              <span className="font-bold">Net Profit:</span>
-              <span className={`font-bold ${netProfit >= 0 ? 'text-success' : 'text-destructive'}`}>
+            <div className="flex justify-between items-center p-4 rounded-xl gradient-hero mt-4">
+              <span className="font-bold text-white text-lg">Net Profit</span>
+              <span className="font-bold text-white text-xl">
                 {formatCurrency(netProfit)}
               </span>
             </div>
           </div>
         </Card>
 
-        <Card className="p-6 shadow-medium">
-          <h3 className="font-semibold mb-4">GST Summary</h3>
-          <div className="space-y-3">
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">GST Collected:</span>
-              <span className="font-medium text-success">{formatCurrency(stats.gstCollected)}</span>
+        <Card className="p-6 shadow-strong hover-lift card-gradient animate-fade-in border-t-4 border-t-[hsl(40_98%_48%)]" style={{ animationDelay: '0.1s' }}>
+          <h3 className="font-bold text-xl mb-6 flex items-center gap-2">
+            <div className="w-2 h-8 bg-gradient-to-b from-[hsl(40_98%_48%)] to-[hsl(145_70%_32%)] rounded-full"></div>
+            GST Summary
+          </h3>
+          <div className="space-y-4">
+            <div className="flex justify-between items-center p-3 rounded-lg bg-[hsl(145_75%_38%)]/5 hover:bg-[hsl(145_75%_38%)]/10 transition-smooth">
+              <span className="text-sm font-medium text-muted-foreground">GST Collected</span>
+              <span className="font-bold text-[hsl(145_75%_38%)]">{formatCurrency(stats.gstCollected)}</span>
             </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">GST Paid:</span>
-              <span className="font-medium text-info">{formatCurrency(stats.gstPaid)}</span>
+            <div className="flex justify-between items-center p-3 rounded-lg bg-[hsl(200_75%_48%)]/5 hover:bg-[hsl(200_75%_48%)]/10 transition-smooth">
+              <span className="text-sm font-medium text-muted-foreground">GST Paid</span>
+              <span className="font-bold text-[hsl(200_75%_48%)]">{formatCurrency(stats.gstPaid)}</span>
             </div>
-            <div className="flex justify-between pt-3 border-t">
-              <span className="font-bold">Net GST Liability:</span>
-              <span className={`font-bold ${netGST >= 0 ? 'text-success' : 'text-destructive'}`}>
+            <div className="flex justify-between items-center p-4 rounded-xl bg-gradient-to-r from-[hsl(40_98%_48%)] to-[hsl(45_95%_50%)] mt-4">
+              <span className="font-bold text-white text-lg">Net GST Liability</span>
+              <span className="font-bold text-white text-xl">
                 {formatCurrency(netGST)}
               </span>
             </div>

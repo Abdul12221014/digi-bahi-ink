@@ -78,12 +78,16 @@ export function CreditManager() {
   };
 
   return (
-    <div className="space-y-6">
-      <Card className="p-6 shadow-soft">
+    <div className="space-y-6 animate-fade-in">
+      <Card className="p-6 shadow-medium gradient-card animate-scale-in hover-lift">
         <div className="space-y-4">
           <div className="flex items-center gap-3">
-            <UserCheck className="w-6 h-6 text-primary" />
-            <h3 className="text-xl font-bold text-ledger-header">Credit Management</h3>
+            <div className="p-2 rounded-lg bg-gradient-to-br from-[hsl(145_70%_32%)] to-[hsl(145_75%_42%)] shadow-glow">
+              <UserCheck className="w-6 h-6 text-white" />
+            </div>
+            <h3 className="text-xl font-bold bg-gradient-to-r from-[hsl(145_70%_32%)] to-[hsl(40_98%_48%)] bg-clip-text text-transparent">
+              Credit Management
+            </h3>
           </div>
           
           <p className="text-sm text-muted-foreground">
@@ -119,7 +123,7 @@ export function CreditManager() {
             {!showOTP ? (
               <Button
                 onClick={handleRequestOTP}
-                className="w-full gradient-hero touch-friendly"
+                className="w-full gradient-hero touch-friendly hover-glow hover-scale"
                 size="lg"
               >
                 Request Customer OTP
@@ -140,7 +144,7 @@ export function CreditManager() {
                 <div className="flex gap-3">
                   <Button
                     onClick={handleVerifyOTP}
-                    className="flex-1 gradient-hero touch-friendly"
+                    className="flex-1 gradient-hero touch-friendly hover-glow hover-scale"
                     size="lg"
                   >
                     Verify & Record
@@ -148,7 +152,7 @@ export function CreditManager() {
                   <Button
                     onClick={() => setShowOTP(false)}
                     variant="outline"
-                    className="flex-1 touch-friendly"
+                    className="flex-1 touch-friendly hover-lift"
                     size="lg"
                   >
                     Cancel
@@ -160,9 +164,11 @@ export function CreditManager() {
         </div>
       </Card>
 
-      <Card className="p-6 shadow-soft">
-        <h4 className="text-lg font-bold mb-4">Credit Ledger</h4>
-        <div className="border rounded-lg overflow-hidden">
+      <Card className="p-6 shadow-medium gradient-card animate-slide-in hover-lift">
+        <h4 className="text-lg font-bold mb-4 bg-gradient-to-r from-[hsl(145_70%_32%)] to-[hsl(40_98%_48%)] bg-clip-text text-transparent">
+          Credit Ledger
+        </h4>
+        <div className="border rounded-lg overflow-hidden shadow-soft">
           <Table>
             <TableHeader>
               <TableRow>
@@ -189,7 +195,7 @@ export function CreditManager() {
                       <Button
                         size="sm"
                         onClick={() => handleMarkPaid(entry.id)}
-                        className="touch-friendly"
+                        className="touch-friendly hover-scale gradient-hero"
                       >
                         Mark Paid
                       </Button>

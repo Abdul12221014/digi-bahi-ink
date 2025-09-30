@@ -61,8 +61,10 @@ export function EntryForm({ onSuccess, onCancel }: EntryFormProps) {
   const previewGST = amount ? calculateGST(parseFloat(amount) || 0, gstRate) : null;
 
   return (
-    <Card className="p-6 shadow-medium">
-      <h2 className="text-2xl font-bold text-ledger-header mb-6">Add New Entry</h2>
+    <Card className="p-6 shadow-strong gradient-card animate-scale-in">
+      <h2 className="text-2xl font-bold bg-gradient-to-r from-[hsl(145_70%_32%)] to-[hsl(40_98%_48%)] bg-clip-text text-transparent mb-6">
+        Add New Entry
+      </h2>
       
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid md:grid-cols-2 gap-4">
@@ -150,7 +152,7 @@ export function EntryForm({ onSuccess, onCancel }: EntryFormProps) {
         </div>
 
         {previewGST && (
-          <Card className="p-4 bg-muted/50 border-primary/20">
+          <Card className="p-4 bg-gradient-to-br from-[hsl(145_70%_32%_/_0.1)] to-[hsl(40_98%_48%_/_0.1)] border-primary/30 animate-fade-in shadow-glow">
             <div className="text-sm space-y-2">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Base Amount:</span>
@@ -160,9 +162,9 @@ export function EntryForm({ onSuccess, onCancel }: EntryFormProps) {
                 <span className="text-muted-foreground">GST ({previewGST.gstRate}%):</span>
                 <span className="font-medium">₹{previewGST.gstAmount.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between border-t pt-2">
+              <div className="flex justify-between border-t border-primary/20 pt-2 mt-2">
                 <span className="font-bold">Total Amount:</span>
-                <span className="font-bold text-primary">₹{previewGST.totalAmount.toFixed(2)}</span>
+                <span className="font-bold text-primary animate-pulse-glow">₹{previewGST.totalAmount.toFixed(2)}</span>
               </div>
             </div>
           </Card>
@@ -172,7 +174,7 @@ export function EntryForm({ onSuccess, onCancel }: EntryFormProps) {
           <Button
             type="submit"
             disabled={loading}
-            className="flex-1 gradient-hero touch-friendly"
+            className="flex-1 gradient-hero touch-friendly hover-glow hover-scale"
             size="lg"
           >
             {loading ? 'Saving...' : 'Save Entry'}
@@ -181,7 +183,7 @@ export function EntryForm({ onSuccess, onCancel }: EntryFormProps) {
             type="button"
             onClick={onCancel}
             variant="outline"
-            className="flex-1 touch-friendly"
+            className="flex-1 touch-friendly hover-lift"
             size="lg"
           >
             Cancel

@@ -61,40 +61,46 @@ export function LedgerTable({ onAddEntry, refresh }: LedgerTableProps) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 animate-fade-in">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-ledger-header">Ledger Entries</h2>
-        <Button onClick={onAddEntry} className="gradient-hero touch-friendly">
+        <h2 className="text-2xl font-bold bg-gradient-to-r from-[hsl(145_70%_32%)] to-[hsl(40_98%_48%)] bg-clip-text text-transparent">
+          Ledger Entries
+        </h2>
+        <Button onClick={onAddEntry} className="gradient-hero touch-friendly hover-glow hover-scale">
           <Plus className="w-4 h-4 mr-2" />
           New Entry
         </Button>
       </div>
 
       {entries.length === 0 ? (
-        <Card className="p-8 text-center gradient-card">
+        <Card className="p-8 text-center gradient-card shadow-medium animate-scale-in">
           <p className="text-muted-foreground mb-4">No entries yet. Create your first transaction!</p>
-          <Button onClick={onAddEntry} variant="outline">
+          <Button onClick={onAddEntry} variant="outline" className="hover-lift">
             <Plus className="w-4 h-4 mr-2" />
             Add Entry
           </Button>
         </Card>
       ) : (
-        <div className="border rounded-lg shadow-soft overflow-hidden ledger-paper">
+        <div className="border rounded-lg shadow-medium overflow-hidden ledger-paper animate-slide-in">
           <Table>
             <TableHeader>
-              <TableRow className="ledger-line">
-                <TableHead>Date</TableHead>
-                <TableHead>Description</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead className="text-right">Amount</TableHead>
-                <TableHead className="text-right">GST</TableHead>
-                <TableHead className="text-right">Total</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+              <TableRow className="ledger-line bg-gradient-to-r from-[hsl(145_70%_32%_/_0.05)] to-[hsl(40_98%_48%_/_0.05)]">
+                <TableHead className="font-bold">Date</TableHead>
+                <TableHead className="font-bold">Description</TableHead>
+                <TableHead className="font-bold">Type</TableHead>
+                <TableHead className="text-right font-bold">Amount</TableHead>
+                <TableHead className="text-right font-bold">GST</TableHead>
+                <TableHead className="text-right font-bold">Total</TableHead>
+                <TableHead className="text-right font-bold">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {entries.map((entry) => (
-                <TableRow key={entry.id} className="ledger-line">
+              {entries.map((entry, index) => (
+                <TableRow 
+                  key={entry.id} 
+                  className="ledger-line hover:bg-gradient-to-r hover:from-[hsl(145_70%_32%_/_0.03)] hover:to-[hsl(40_98%_48%_/_0.03)] transition-smooth"
+                  style={{ animationDelay: `${index * 0.05}s` }}
+                >
                   <TableCell>{formatDate(entry.date)}</TableCell>
                   <TableCell className="font-medium">{entry.description}</TableCell>
                   <TableCell>
@@ -111,14 +117,14 @@ export function LedgerTable({ onAddEntry, refresh }: LedgerTableProps) {
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex gap-2 justify-end">
-                      <Button size="sm" variant="ghost" className="touch-friendly">
+                      <Button size="sm" variant="ghost" className="touch-friendly hover-scale">
                         <Edit className="w-4 h-4" />
                       </Button>
                       <Button
                         size="sm"
                         variant="ghost"
                         onClick={() => handleDelete(entry.id)}
-                        className="touch-friendly text-destructive hover:text-destructive"
+                        className="touch-friendly text-destructive hover:text-destructive hover-scale"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>

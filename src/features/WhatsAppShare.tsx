@@ -85,11 +85,15 @@ export function WhatsAppShare() {
   };
 
   return (
-    <Card className="p-6 shadow-soft">
+    <Card className="p-6 shadow-medium gradient-card animate-scale-in hover-lift">
       <div className="space-y-4">
         <div className="flex items-center gap-3">
-          <MessageCircle className="w-6 h-6 text-primary" />
-          <h3 className="text-xl font-bold text-ledger-header">WhatsApp Billing</h3>
+          <div className="p-2 rounded-lg bg-gradient-to-br from-[hsl(145_70%_32%)] to-[hsl(40_98%_48%)] shadow-glow">
+            <MessageCircle className="w-6 h-6 text-white" />
+          </div>
+          <h3 className="text-xl font-bold bg-gradient-to-r from-[hsl(145_70%_32%)] to-[hsl(40_98%_48%)] bg-clip-text text-transparent">
+            WhatsApp Billing
+          </h3>
         </div>
         
         <p className="text-sm text-muted-foreground">
@@ -138,7 +142,7 @@ export function WhatsAppShare() {
 
         <Button
           onClick={handleShare}
-          className="w-full gradient-hero touch-friendly"
+          className="w-full gradient-hero touch-friendly hover-glow hover-scale"
           size="lg"
         >
           Share via WhatsApp

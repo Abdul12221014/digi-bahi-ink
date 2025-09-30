@@ -186,16 +186,20 @@ export function Reports() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-ledger-header">Reports & Analytics</h2>
+        <h2 className="text-2xl font-bold bg-gradient-to-r from-[hsl(145_70%_32%)] to-[hsl(40_98%_48%)] bg-clip-text text-transparent">
+          Reports & Analytics
+        </h2>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <Card className="p-6 shadow-soft gradient-card">
+        <Card className="p-6 shadow-medium gradient-card hover-lift animate-scale-in" style={{ animationDelay: '0.1s' }}>
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <FileText className="w-6 h-6 text-primary" />
+              <div className="p-2 rounded-lg bg-gradient-to-br from-[hsl(145_70%_32%)] to-[hsl(145_75%_42%)] shadow-glow">
+                <FileText className="w-6 h-6 text-white" />
+              </div>
               <h3 className="text-lg font-bold">Profit & Loss Statement</h3>
             </div>
             <p className="text-sm text-muted-foreground">
@@ -203,7 +207,7 @@ export function Reports() {
             </p>
             <Button
               onClick={() => exportPDF('pl')}
-              className="w-full gradient-hero touch-friendly"
+              className="w-full gradient-hero touch-friendly hover-glow hover-scale"
             >
               <Download className="w-4 h-4 mr-2" />
               Export P&L (PDF)
@@ -211,10 +215,12 @@ export function Reports() {
           </div>
         </Card>
 
-        <Card className="p-6 shadow-soft gradient-card">
+        <Card className="p-6 shadow-medium gradient-card hover-lift animate-scale-in" style={{ animationDelay: '0.2s' }}>
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <FileText className="w-6 h-6 text-primary" />
+              <div className="p-2 rounded-lg bg-gradient-to-br from-[hsl(40_98%_48%)] to-[hsl(45_95%_50%)] shadow-accent">
+                <FileText className="w-6 h-6 text-white" />
+              </div>
               <h3 className="text-lg font-bold">GST Report</h3>
             </div>
             <p className="text-sm text-muted-foreground">
@@ -222,7 +228,7 @@ export function Reports() {
             </p>
             <Button
               onClick={() => exportPDF('gst')}
-              className="w-full gradient-hero touch-friendly"
+              className="w-full gradient-hero touch-friendly hover-glow hover-scale"
             >
               <Download className="w-4 h-4 mr-2" />
               Export GST (PDF)
@@ -230,10 +236,12 @@ export function Reports() {
           </div>
         </Card>
 
-        <Card className="p-6 shadow-soft gradient-card">
+        <Card className="p-6 shadow-medium gradient-card hover-lift animate-scale-in" style={{ animationDelay: '0.3s' }}>
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <FileText className="w-6 h-6 text-primary" />
+              <div className="p-2 rounded-lg bg-gradient-to-br from-[hsl(145_70%_32%)] to-[hsl(40_98%_48%)] shadow-glow">
+                <FileText className="w-6 h-6 text-white" />
+              </div>
               <h3 className="text-lg font-bold">Ledger Summary</h3>
             </div>
             <p className="text-sm text-muted-foreground">
@@ -241,7 +249,7 @@ export function Reports() {
             </p>
             <Button
               onClick={() => exportPDF('ledger')}
-              className="w-full gradient-hero touch-friendly"
+              className="w-full gradient-hero touch-friendly hover-glow hover-scale"
             >
               <Download className="w-4 h-4 mr-2" />
               Export Ledger (PDF)
@@ -249,10 +257,12 @@ export function Reports() {
           </div>
         </Card>
 
-        <Card className="p-6 shadow-soft gradient-card">
+        <Card className="p-6 shadow-medium gradient-card hover-lift animate-scale-in" style={{ animationDelay: '0.4s' }}>
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <FileText className="w-6 h-6 text-primary" />
+              <div className="p-2 rounded-lg bg-gradient-to-br from-[hsl(145_75%_35%)] to-[hsl(145_70%_45%)] shadow-medium">
+                <FileText className="w-6 h-6 text-white" />
+              </div>
               <h3 className="text-lg font-bold">CSV Export</h3>
             </div>
             <p className="text-sm text-muted-foreground">
@@ -261,7 +271,7 @@ export function Reports() {
             <Button
               onClick={exportCSV}
               variant="outline"
-              className="w-full touch-friendly"
+              className="w-full touch-friendly hover-lift hover:border-primary"
             >
               <Download className="w-4 h-4 mr-2" />
               Export CSV

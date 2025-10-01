@@ -23,6 +23,7 @@ const COLORS = [
 
 export function PenCanvas({ onRecognized, onClose }: PenCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const backgroundCanvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
@@ -32,10 +33,13 @@ export function PenCanvas({ onRecognized, onClose }: PenCanvasProps) {
   const [strokeColor, setStrokeColor] = useState('#2E7D32');
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [showGrid, setShowGrid] = useState(false);
+  const [backgroundColor, setBackgroundColor] = useState('#FFFFFF');
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const bgCanvas = backgroundCanvasRef.current;
+    if (!canvas || !bgCanvas) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -43,13 +47,56 @@ export function PenCanvas({ onRecognized, onClose }: PenCanvasProps) {
     // Set canvas size
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
+    bgCanvas.width = bgCanvas.offsetWidth;
+    bgCanvas.height = bgCanvas.offsetHeight;
 
     // Configure drawing style
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
 
     setContext(ctx);
+    drawBackground();
   }, []);
+
+  useEffect(() => {
+    drawBackground();
+  }, [showGrid, backgroundColor]);
+
+  const drawBackground = () => {
+    const bgCanvas = backgroundCanvasRef.current;
+    if (!bgCanvas) return;
+
+    const bgCtx = bgCanvas.getContext('2d');
+    if (!bgCtx) return;
+
+    // Clear background
+    bgCtx.fillStyle = backgroundColor;
+    bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
+
+    // Draw grid if enabled
+    if (showGrid) {
+      bgCtx.strokeStyle = '#E0E0E0';
+      bgCtx.lineWidth = 1;
+
+      const gridSize = 30;
+      
+      // Vertical lines
+      for (let x = 0; x < bgCanvas.width; x += gridSize) {
+        bgCtx.beginPath();
+        bgCtx.moveTo(x, 0);
+        bgCtx.lineTo(x, bgCanvas.height);
+        bgCtx.stroke();
+      }
+
+      // Horizontal lines
+      for (let y = 0; y < bgCanvas.height; y += gridSize) {
+        bgCtx.beginPath();
+        bgCtx.moveTo(0, y);
+        bgCtx.lineTo(bgCanvas.width, y);
+        bgCtx.stroke();
+      }
+    }
+  };
 
   useEffect(() => {
     if (!context) return;
@@ -140,6 +187,7 @@ export function PenCanvas({ onRecognized, onClose }: PenCanvasProps) {
     const canvas = canvasRef.current;
     if (!canvas || !context) return;
     context.clearRect(0, 0, canvas.width, canvas.height);
+    drawBackground();
   };
 
   const recognizeText = async () => {
@@ -192,7 +240,7 @@ export function PenCanvas({ onRecognized, onClose }: PenCanvasProps) {
         {/* iPad Notes-inspired Toolbar */}
         <div className="flex flex-col gap-4 p-4 bg-muted/50 rounded-xl border border-border">
           {/* Tool Selection */}
-          <div className="flex gap-2 justify-center">
+          <div className="flex gap-2 justify-center flex-wrap">
             <Button
               size="lg"
               variant={tool === 'pen' ? 'default' : 'outline'}
@@ -225,6 +273,32 @@ export function PenCanvas({ onRecognized, onClose }: PenCanvasProps) {
             >
               <RotateCcw className="w-5 h-5" />
             </Button>
+          </div>
+
+          {/* Grid and Background Controls */}
+          <div className="flex gap-4 justify-center items-center flex-wrap">
+            <Button
+              size="sm"
+              variant={showGrid ? 'default' : 'outline'}
+              onClick={() => setShowGrid(!showGrid)}
+              className="touch-friendly transition-all hover:scale-105"
+            >
+              {showGrid ? 'Hide Grid' : 'Show Grid'}
+            </Button>
+            <div className="flex gap-2 items-center">
+              <span className="text-sm font-medium text-foreground">Background:</span>
+              {['#FFFFFF', '#FFF9E6', '#F0F8FF', '#FFF0F5'].map((color) => (
+                <button
+                  key={color}
+                  onClick={() => setBackgroundColor(color)}
+                  className={`w-8 h-8 rounded-full border-2 transition-all hover:scale-110 ${
+                    backgroundColor === color ? 'border-primary ring-2 ring-primary/50' : 'border-border'
+                  }`}
+                  style={{ backgroundColor: color }}
+                  title={color}
+                />
+              ))}
+            </div>
           </div>
 
           {/* Stroke Width Slider */}
@@ -287,12 +361,20 @@ export function PenCanvas({ onRecognized, onClose }: PenCanvasProps) {
         {/* Canvas */}
         <div
           ref={containerRef}
-          className="relative overflow-hidden rounded-xl border-2 border-border bg-background"
-          style={{ height: '400px' }}
+          className="relative overflow-hidden rounded-xl border-2 border-border shadow-lg"
+          style={{ height: '500px' }}
         >
           <canvas
+            ref={backgroundCanvasRef}
+            className="absolute top-0 left-0"
+            style={{
+              transform: `scale(${zoom}) translate(${pan.x}px, ${pan.y}px)`,
+              transformOrigin: '0 0',
+            }}
+          />
+          <canvas
             ref={canvasRef}
-            className="absolute cursor-crosshair"
+            className="absolute top-0 left-0 cursor-crosshair"
             style={{
               transform: `scale(${zoom}) translate(${pan.x}px, ${pan.y}px)`,
               transformOrigin: '0 0',

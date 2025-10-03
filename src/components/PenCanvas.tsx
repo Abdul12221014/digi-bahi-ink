@@ -2,7 +2,7 @@ import { useRef, useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { Pen, Eraser, RotateCcw, Check, Highlighter, ZoomIn, ZoomOut, Grid3x3, AlignLeft, Lasso, Plus, Undo, Type, Image, FileSignature, Square } from 'lucide-react';
+import { Pen, Eraser, RotateCcw, Check, Highlighter, ZoomIn, ZoomOut, Grid3x3, AlignLeft, Lasso, Plus, Undo, Redo, Type, Image, FileSignature, Square } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
 
 interface PenCanvasProps {
@@ -328,6 +328,17 @@ export function PenCanvas({ onRecognized, onClose }: PenCanvasProps) {
     toast.success('Undone');
   }, [context, history, historyStep]);
 
+  const handleRedo = useCallback(() => {
+    if (historyStep >= history.length - 1) return;
+    const canvas = canvasRef.current;
+    if (!canvas || !context) return;
+    
+    const nextState = history[historyStep + 1];
+    context.putImageData(nextState, 0, 0);
+    setHistoryStep(historyStep + 1);
+    toast.success('Redone');
+  }, [context, history, historyStep]);
+
   const handleSelectionAction = useCallback((action: string) => {
     setShowSelectionMenu(false);
     toast.success(`${action} - Feature coming soon!`);
@@ -530,6 +541,16 @@ export function PenCanvas({ onRecognized, onClose }: PenCanvasProps) {
             <Button
               size="sm"
               variant="ghost"
+              onClick={handleRedo}
+              disabled={historyStep >= history.length - 1}
+              className="touch-friendly transition-all hover:scale-105"
+              title="Redo"
+            >
+              <Redo className="w-4 h-4" />
+            </Button>
+            <Button
+              size="sm"
+              variant="ghost"
               onClick={clearCanvas}
               className="touch-friendly transition-all hover:scale-105"
               title="Clear"
@@ -650,18 +671,56 @@ export function PenCanvas({ onRecognized, onClose }: PenCanvasProps) {
           className="relative overflow-hidden rounded-xl border-2 border-border shadow-lg"
           style={{ height: '400px' }}
         >
-          {/* Selection Pop-up Menu */}
+          {/* Selection Pop-up Menu - iPad Notes Style */}
           {showSelectionMenu && (
-            <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-background border border-border rounded-lg shadow-xl p-2 z-20 flex gap-1">
-              <Button size="sm" variant="ghost" onClick={() => handleSelectionAction('Cut')}>Cut</Button>
-              <Button size="sm" variant="ghost" onClick={() => handleSelectionAction('Copy')}>Copy</Button>
-              <Button size="sm" variant="ghost" onClick={() => handleSelectionAction('Delete')}>Delete</Button>
-              <Button size="sm" variant="ghost" onClick={() => handleSelectionAction('Duplicate')}>Duplicate</Button>
-              <Button size="sm" variant="ghost" onClick={() => handleSelectionAction('Snap to Shapes')}>Snap</Button>
-              <Button size="sm" variant="ghost" onClick={() => handleSelectionAction('Copy as Text')}>Text</Button>
-              <Button size="sm" variant="ghost" onClick={() => handleSelectionAction('Straighten')}>Straighten</Button>
-              <Button size="sm" variant="ghost" onClick={() => setShowSelectionMenu(false)}>✕</Button>
+            <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-background/95 backdrop-blur-md border border-border rounded-xl shadow-strong p-1 z-20 flex gap-1 animate-scale-in">
+              <Button size="sm" variant="ghost" onClick={() => handleSelectionAction('Cut')} className="hover:bg-muted">Cut</Button>
+              <Button size="sm" variant="ghost" onClick={() => handleSelectionAction('Copy')} className="hover:bg-muted">Copy</Button>
+              <Button size="sm" variant="ghost" onClick={() => handleSelectionAction('Delete')} className="hover:bg-muted">Delete</Button>
+              <Button size="sm" variant="ghost" onClick={() => handleSelectionAction('Duplicate')} className="hover:bg-muted">Duplicate</Button>
+              <Button size="sm" variant="ghost" onClick={() => handleSelectionAction('Snap to Shapes')} className="hover:bg-muted">Snap</Button>
+              <Button size="sm" variant="ghost" onClick={() => handleSelectionAction('Copy as Text')} className="hover:bg-muted">OCR</Button>
+              <Button size="sm" variant="ghost" onClick={() => handleSelectionAction('Insert Space')} className="hover:bg-muted">Space</Button>
+              <Button size="sm" variant="ghost" onClick={() => handleSelectionAction('Translate')} className="hover:bg-muted">Translate</Button>
+              <Button size="sm" variant="ghost" onClick={() => handleSelectionAction('Straighten')} className="hover:bg-muted">Straighten</Button>
+              <Button size="sm" variant="ghost" onClick={() => setShowSelectionMenu(false)} className="hover:bg-destructive hover:text-destructive-foreground">✕</Button>
             </div>
+          )}
+          
+          {/* Yellow Resize Handles for Lasso Selection */}
+          {selectedArea && (
+            <>
+              {/* Selection Rectangle */}
+              <div
+                className="absolute border-2 border-dashed border-primary z-10 pointer-events-none"
+                style={{
+                  left: selectedArea.x,
+                  top: selectedArea.y,
+                  width: selectedArea.width,
+                  height: selectedArea.height,
+                }}
+              />
+              {/* Yellow Resize Handles */}
+              {[
+                { x: selectedArea.x, y: selectedArea.y }, // top-left
+                { x: selectedArea.x + selectedArea.width, y: selectedArea.y }, // top-right
+                { x: selectedArea.x, y: selectedArea.y + selectedArea.height }, // bottom-left
+                { x: selectedArea.x + selectedArea.width, y: selectedArea.y + selectedArea.height }, // bottom-right
+                { x: selectedArea.x + selectedArea.width / 2, y: selectedArea.y }, // top-middle
+                { x: selectedArea.x + selectedArea.width / 2, y: selectedArea.y + selectedArea.height }, // bottom-middle
+                { x: selectedArea.x, y: selectedArea.y + selectedArea.height / 2 }, // left-middle
+                { x: selectedArea.x + selectedArea.width, y: selectedArea.y + selectedArea.height / 2 }, // right-middle
+              ].map((handle, index) => (
+                <div
+                  key={index}
+                  className="absolute w-3 h-3 bg-accent border-2 border-background rounded-full z-20 cursor-pointer hover:scale-125 transition-transform"
+                  style={{
+                    left: handle.x - 6,
+                    top: handle.y - 6,
+                  }}
+                />
+              ))}
+            </>
           )}
           
           <canvas
